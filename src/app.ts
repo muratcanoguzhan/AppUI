@@ -1,26 +1,24 @@
-export class App {
-  heading = 'Todos';
-  todos = [];
-  todoDescription = '';
+import {inject, PLATFORM} from 'aurelia-framework';
+  import {WebAPI} from './web-api';
   
-  constructor() {
-
-  }
-
-  addTodo() {
-    if (this.todoDescription) {
-      this.todos.push({
-        description: this.todoDescription,
-        done: false
-      });
-      this.todoDescription = '';
+  @inject(WebAPI)
+  export class App {
+    api: any;
+    router: any;
+    constructor(api) {
+      this.api = api;
+    }
+  
+    configureRouter(config, router) {
+      config.title = 'Contacts';
+      config.options.pushState = true;
+      config.options.root = '/';
+      config.map([
+        { route: '',              moduleId: PLATFORM.moduleName('no-selection'),   title: 'Select'},
+        { route: 'contacts/:id',  moduleId: PLATFORM.moduleName('contact-detail'), name:'contacts' }
+      ]);
+  
+      this.router = router;
     }
   }
-
-  removeTodo(todo) {
-    let index = this.todos.indexOf(todo);
-    if (index !== -1) {
-      this.todos.splice(index, 1);
-    }
-  }
-}
+  
