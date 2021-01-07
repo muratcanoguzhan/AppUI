@@ -1,9 +1,9 @@
 import {EventAggregator} from 'aurelia-event-aggregator';
-  import {WebAPI} from './web-api';
+  import {Client} from './client';
   import {ContactUpdated, ContactViewed} from './messages';
   import {inject} from 'aurelia-framework';
   
-  @inject(WebAPI, EventAggregator)
+  @inject(Client, EventAggregator)
   export class ContactList {
     api: any;
     contacts: any[];
@@ -21,7 +21,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
     }
   
     created() {
-      this.api.getContactList().then(contacts => this.contacts = contacts);
+      this.api.getAll().then(contacts => this.contacts = contacts);
     }
   
     select(contact) {
