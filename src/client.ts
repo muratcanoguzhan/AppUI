@@ -226,8 +226,8 @@ export class ApplicantDto implements IApplicantDto {
     address?: string | undefined;
     countryOfOrigin?: string | undefined;
     emailAdress?: string | undefined;
-    age?: number;
-    hired?: boolean;
+    age: number;
+    hired: boolean;
 
     constructor(data?: IApplicantDto) {
         if (data) {

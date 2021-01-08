@@ -32,6 +32,7 @@ export class CreateOrUpdateApplicant {
   }
 
   save() {
+    debugger;
     this.api.insert(this.applicant).then(r => {
       this.applicant = r;
       // this.routeConfig.navModel.setTitle(r.name);
