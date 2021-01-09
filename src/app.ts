@@ -14,8 +14,8 @@ export class App {
     config.options.pushState = true;
     config.options.root = '/';
     config.map([
-      // { route: '', moduleId: PLATFORM.moduleName('no-selection'), title: 'Select' },
-      { route: '', moduleId: PLATFORM.moduleName('create-or-update-applicant'), name: 'Applicants' }
+      { route: '', moduleId: PLATFORM.moduleName('create-or-update-applicant'), name: 'Applicants' },
+      { route: 'confirmation-view', moduleId: PLATFORM.moduleName('confirmation-view'), name: 'confirmation-view', title:"ConfirmationView"},
     ]);
 
     this.router = router;

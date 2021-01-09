@@ -1,10 +1,14 @@
+import { DialogService } from 'aurelia-dialog';
 import { EventAggregator } from 'aurelia-event-aggregator';
-import { inject, NewInstance, ObserverLocator } from 'aurelia-framework';
-import { ValidationController, ValidationRules, validateTrigger, Validator, Rule } from 'aurelia-validation';
+import { inject, NewInstance } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { Rule, validateTrigger, ValidationController, ValidationRules, Validator } from 'aurelia-validation';
+import { ApplicantDialog } from 'resources/dialogs/applicant-dialog';
+import { ConfirmationDialog } from 'resources/dialogs/confirmation-dialog';
 import { BootstrapFormRenderer } from 'resources/renderers/bootstrap-form-renderer';
 import { ApplicantDto, Client } from './client';
 
-@inject(Client, EventAggregator, NewInstance.of(ValidationController), BootstrapFormRenderer, Validator, ObserverLocator)
+@inject(Client, EventAggregator, NewInstance.of(ValidationController), BootstrapFormRenderer, Validator, Router, DialogService)
 export class CreateOrUpdateApplicant {
   api: any;
   ea: any;
@@ -13,14 +17,15 @@ export class CreateOrUpdateApplicant {
   originalContact: any;
   disabled = true;
   applicantRules: Rule<ApplicantDto, any>[][];
-  constructor(api, ea,
-    public applicantController: ValidationController,
-    public bootstrapRenderer: BootstrapFormRenderer,
-    private validator: Validator,
-    private ol: ObserverLocator) {
+  constructor(_api, _ea,
+    public _applicantController: ValidationController,
+    public _bootstrapRenderer: BootstrapFormRenderer,
+    private _validator: Validator,
+    public _router: Router,
+    private _dialogService: DialogService) {
 
-    this.api = api;
-    this.ea = ea;
+    this.api = _api;
+    this.ea = _ea;
 
     this.applicantRules = ValidationRules
       .ensure((res: ApplicantDto) => res.name).required().minLength(5)
@@ -31,9 +36,9 @@ export class CreateOrUpdateApplicant {
       .ensure((res: ApplicantDto) => res.countryOfOrigin).required()
       .rules;
 
-    this.applicantController.addObject(this.applicant, this.applicantRules);
-    this.applicantController.addRenderer(bootstrapRenderer);
-    this.applicantController.validateTrigger = validateTrigger.blur;
+    this._applicantController.addObject(this.applicant, this.applicantRules);
+    this._applicantController.addRenderer(_bootstrapRenderer);
+    this._applicantController.validateTrigger = validateTrigger.changeOrBlur;
   }
 
   activate(params, routeConfig) {
@@ -47,39 +52,55 @@ export class CreateOrUpdateApplicant {
   }
 
   save() {
-    this.applicantController.validate().then(x => {
+    this._applicantController.validate().then(x => {
       if (x.valid) {
         this.api.insert(this.applicant).then(r => {
-          // this.routeConfig.navModel.setTitle(r.name);
-          // this.originalContact = JSON.parse(JSON.stringify(r));
-          // this.ea.publish(new ContactUpdated(this.applicant));
-        }).finally(f => this.applicantController.reset());
+          this._router.navigateToRoute("confirmation-view", r);
+        })
+          .finally(f => this._applicantController.reset())
+          .catch(error => {
+            this.dialog(JSON.parse(error.response).errors);
+          });;
       }
     });
   }
 
   reset() {
-    let result = confirm('Are you sure you wish to reset form?');
-    if (!result) {
-      return false;
-    }
-    this.applicant.id = 0;
-    this.applicant.name = "";
-    this.applicant.familyName = "";
-    this.applicant.address = "";
-    this.applicant.countryOfOrigin = "";
-    this.applicant.emailAdress = "";
-    this.applicant.age = null;
-    this.applicant.hired = false;
-    return true;
+    let wasCancelled = true;
+    this._dialogService.open({ viewModel: ConfirmationDialog, model: "Are you sure you want to reset the form.", lock: false }).whenClosed(response => {
+      wasCancelled = response.wasCancelled;
+      if (wasCancelled) {
+        return false;
+      }
+      this.applicant.id = 0;
+      this.applicant.name = "";
+      this.applicant.familyName = "";
+      this.applicant.address = "";
+      this.applicant.countryOfOrigin = "";
+      this.applicant.emailAdress = "";
+      this.applicant.age = null;
+      this.applicant.hired = false;
+      return true;
+    });
+  }
+
+  dialog(obj) {
+    this._dialogService.open({ viewModel: ApplicantDialog, model: obj, lock: false }).whenClosed(response => {
+      // if (!response.wasCancelled) {
+      //   console.log('good - ', response.output);
+      // } else {
+      //   console.log('bad');
+      // }
+      // console.log(response.output);
+    });
   }
 
   canDeactivate() {
-    this.applicantController.removeRenderer(this.bootstrapRenderer);
+    this._applicantController.removeRenderer(this._bootstrapRenderer);
   }
 
   isValid(e) {
-    this.validator.validateObject(this.applicant, this.applicantRules).then(x => {
+    this._validator.validateObject(this.applicant, this.applicantRules).then(x => {
       this.disabled = x.some(x => !x.valid);
     });
   }
@@ -89,7 +110,7 @@ export class CreateOrUpdateApplicant {
   }
 
   test() {
-    this.api.getCountryInfo("Turkey").then(x => {
+    this.api.getCountryInfo("Germany").then(x => {
       console.log(x);
     });
   }
