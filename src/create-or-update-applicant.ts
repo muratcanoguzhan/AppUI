@@ -1,24 +1,43 @@
-import { inject } from 'aurelia-framework';
 import { EventAggregator } from 'aurelia-event-aggregator';
+import { inject, NewInstance, ObserverLocator } from 'aurelia-framework';
+import { ValidationController, ValidationRules, validateTrigger, Validator, Rule } from 'aurelia-validation';
+import { BootstrapFormRenderer } from 'resources/renderers/bootstrap-form-renderer';
 import { ApplicantDto, Client } from './client';
-import { ContactUpdated, ContactViewed } from './messages';
-import { areEqual } from './utility';
 
-@inject(Client, EventAggregator)
+@inject(Client, EventAggregator, NewInstance.of(ValidationController), BootstrapFormRenderer, Validator, ObserverLocator)
 export class CreateOrUpdateApplicant {
   api: any;
   ea: any;
   routeConfig: any;
-  applicant : ApplicantDto = new ApplicantDto();
+  applicant: ApplicantDto = new ApplicantDto();
   originalContact: any;
-  constructor(api, ea) {
+  disabled = true;
+  applicantRules: Rule<ApplicantDto, any>[][];
+  constructor(api, ea,
+    public applicantController: ValidationController,
+    public bootstrapRenderer: BootstrapFormRenderer,
+    private validator: Validator,
+    private ol: ObserverLocator) {
+
     this.api = api;
     this.ea = ea;
+
+    this.applicantRules = ValidationRules
+      .ensure((res: ApplicantDto) => res.name).required().minLength(5)
+      .ensure((res: ApplicantDto) => res.familyName).required().minLength(5)
+      .ensure((res: ApplicantDto) => res.address).required().minLength(10)
+      .ensure((res: ApplicantDto) => res.countryOfOrigin).required()
+      .ensure((res: ApplicantDto) => res.emailAdress).required().email()
+      .ensure((res: ApplicantDto) => res.age).required().range(20, 60)
+      .rules;
+
+    this.applicantController.addObject(this.applicant, this.applicantRules);
+    this.applicantController.addRenderer(bootstrapRenderer);
+    this.applicantController.validateTrigger = validateTrigger.changeOrBlur;
   }
 
   activate(params, routeConfig) {
     this.routeConfig = routeConfig;
-
     // return this.api.getContactDetails(params.id).then(applicant => {
     //   this.applicant = applicant;
     //   this.routeConfig.navModel.setTitle(applicant.firstName);
@@ -27,31 +46,25 @@ export class CreateOrUpdateApplicant {
     // });
   }
 
-  get canSave() {
-    return this.applicant.name && this.applicant.familyName && !this.api.isRequesting;
-  }
-
   save() {
-    debugger;
-    this.api.insert(this.applicant).then(r => {
-      this.applicant = r;
-      // this.routeConfig.navModel.setTitle(r.name);
-      // this.originalContact = JSON.parse(JSON.stringify(r));
-      // this.ea.publish(new ContactUpdated(this.applicant));
+    this.applicantController.validate().then(x => {
+      if (x.valid) {
+        this.api.insert(this.applicant).then(r => {
+          // this.routeConfig.navModel.setTitle(r.name);
+          // this.originalContact = JSON.parse(JSON.stringify(r));
+          // this.ea.publish(new ContactUpdated(this.applicant));
+        }).finally(f => this.applicantController.reset());
+      }
     });
   }
 
   canDeactivate() {
-    if (!areEqual(this.originalContact, this.applicant)) {
-      let result = confirm('You have unsaved changes. Are you sure you wish to leave?');
+    this.applicantController.removeRenderer(this.bootstrapRenderer);
+  }
 
-      if (!result) {
-        this.ea.publish(new ContactViewed(this.applicant));
-      }
-
-      return result;
-    }
-
-    return true;
+  isValid(e) {
+    this.validator.validateObject(this.applicant, this.applicantRules).then(x => {
+      this.disabled = x.some(x => !x.valid);
+    });
   }
 }

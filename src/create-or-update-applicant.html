@@ -4,44 +4,44 @@
       Profile
     </div>
     <div class="card-body">
-      <form role="form">
+      <form role="form" mouseover.delegate="isValid($event)">
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Name</label>
           <div class="col-md-9">
-            <input type="text" placeholder="name" class="form-control" value.bind="applicant.name"/>
+            <input type="text" placeholder="name" class="form-control" value.bind="applicant.name & validate"/>
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Family Name</label>
           <div class="col-md-9">
-            <input type="text" placeholder="familyName" class="form-control" value.bind="applicant.familyName"/>
+            <input type="text" placeholder="familyName" class="form-control" value.bind="applicant.familyName & validate"/>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Address</label>
           <div class="col-md-9">
-            <input type="text" placeholder="address" class="form-control" value.bind="applicant.address"/>
+            <textarea type="text" placeholder="address" class="form-control" value.bind="applicant.address & validate" rows="2" cols="2"></textarea>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Country Of Origin</label>
           <div class="col-md-9">
             <input type="text" placeholder="countryOfOrigin" class="form-control"
-              value.bind="applicant.countryOfOrigin">
+              value.bind="applicant.countryOfOrigin & validate">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Email Adress</label>
           <div class="col-md-9">
-            <input type="text" placeholder="emailAdress" class="form-control" value.bind="applicant.emailAdress"/>
+            <input type="text" placeholder="emailAdress" class="form-control" value.bind="applicant.emailAdress & validate"/>
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-md-3 col-form-label">Age</label>
           <div class="col-md-9">
-            <input type="number" placeholder="age" class="form-control" value.bind="applicant.age"/>
+            <input type="number" placeholder="age" class="form-control" value.bind="applicant.age & validate"/>
           </div>
         </div>
         <div class="form-group row">
@@ -53,10 +53,12 @@
             </div>
           </div>
         </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <button class="btn btn-outline-success pull-right" click.delegate="save()" disabled.bind="disabled">Save</button>
+          </div>
+        </div>
       </form>
-      <div>
-        <button class="btn btn-outline-success float-right" click.delegate="save()" disabled.bind="!canSave">Save</button>
-      </div>
     </div>
   </div>
 </template>
