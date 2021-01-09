@@ -26,14 +26,14 @@ export class CreateOrUpdateApplicant {
       .ensure((res: ApplicantDto) => res.name).required().minLength(5)
       .ensure((res: ApplicantDto) => res.familyName).required().minLength(5)
       .ensure((res: ApplicantDto) => res.address).required().minLength(10)
-      .ensure((res: ApplicantDto) => res.countryOfOrigin).required()
       .ensure((res: ApplicantDto) => res.emailAdress).required().email()
       .ensure((res: ApplicantDto) => res.age).required().range(20, 60)
+      .ensure((res: ApplicantDto) => res.countryOfOrigin).required()
       .rules;
 
     this.applicantController.addObject(this.applicant, this.applicantRules);
     this.applicantController.addRenderer(bootstrapRenderer);
-    this.applicantController.validateTrigger = validateTrigger.changeOrBlur;
+    this.applicantController.validateTrigger = validateTrigger.blur;
   }
 
   activate(params, routeConfig) {
@@ -58,6 +58,22 @@ export class CreateOrUpdateApplicant {
     });
   }
 
+  reset() {
+    let result = confirm('Are you sure you wish to reset form?');
+    if (!result) {
+      return false;
+    }
+    this.applicant.id = 0;
+    this.applicant.name = "";
+    this.applicant.familyName = "";
+    this.applicant.address = "";
+    this.applicant.countryOfOrigin = "";
+    this.applicant.emailAdress = "";
+    this.applicant.age = null;
+    this.applicant.hired = false;
+    return true;
+  }
+
   canDeactivate() {
     this.applicantController.removeRenderer(this.bootstrapRenderer);
   }
@@ -67,4 +83,15 @@ export class CreateOrUpdateApplicant {
       this.disabled = x.some(x => !x.valid);
     });
   }
+
+  get disabledForReset() {
+    return !Object.keys(this.applicant).some((key) => this.applicant[key]);
+  }
+
+  test() {
+    this.api.getCountryInfo("Turkey").then(x => {
+      console.log(x);
+    });
+  }
+
 }
