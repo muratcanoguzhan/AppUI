@@ -14,7 +14,6 @@ export class CreateOrUpdateApplicant {
   ea: any;
   routeConfig: any;
   applicant: ApplicantDto = new ApplicantDto();
-  originalContact: any;
   disabled = true;
   applicantRules: Rule<ApplicantDto, any>[][];
   constructor(_api, _ea,
@@ -41,14 +40,8 @@ export class CreateOrUpdateApplicant {
     this._applicantController.validateTrigger = validateTrigger.changeOrBlur;
   }
 
-  activate(params, routeConfig) {
+  activate(routeConfig) {
     this.routeConfig = routeConfig;
-    // return this.api.getContactDetails(params.id).then(applicant => {
-    //   this.applicant = applicant;
-    //   this.routeConfig.navModel.setTitle(applicant.firstName);
-    //   this.originalContact = JSON.parse(JSON.stringify(applicant));
-    //   this.ea.publish(new ContactViewed(this.applicant));
-    // });
   }
 
   save() {
@@ -57,7 +50,7 @@ export class CreateOrUpdateApplicant {
         this.api.insert(this.applicant).then(r => {
           this._router.navigateToRoute("confirmation-view", r);
         })
-          .finally(f => this._applicantController.reset())
+          .finally(() => this._applicantController.reset())
           .catch(error => {
             this.dialog(JSON.parse(error.response).errors);
           });;
@@ -85,13 +78,7 @@ export class CreateOrUpdateApplicant {
   }
 
   dialog(obj) {
-    this._dialogService.open({ viewModel: ApplicantDialog, model: obj, lock: false }).whenClosed(response => {
-      // if (!response.wasCancelled) {
-      //   console.log('good - ', response.output);
-      // } else {
-      //   console.log('bad');
-      // }
-      // console.log(response.output);
+    this._dialogService.open({ viewModel: ApplicantDialog, model: obj, lock: false }).whenClosed(() => {
     });
   }
 
