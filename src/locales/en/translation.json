@@ -20,6 +20,7 @@
         "required": "${$displayName} is required!",
         "minLength": "${$displayName} must be at least ${$config.length} characters.",
         "email": "${$displayName} is not a valid email.",
-        "range": "${$displayName} must be between or equal to ${$config.min} and ${$config.max}."
+        "range": "${$displayName} must be between or equal to ${$config.min} and ${$config.max}.",
+        "CountryOfOriginError": "Country not found!"
     }
 }
