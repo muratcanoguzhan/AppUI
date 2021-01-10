@@ -6,6 +6,7 @@ import 'font-awesome/css/font-awesome.css';
 import 'famfamfam-flags/dist/sprite/famfamfam-flags.min.css';
 import Backend from 'i18next-xhr-backend';
 import * as environment from '../config/environment.json';
+import { ValidationMessageProvider } from 'aurelia-validation';
 
 export function configure(aurelia: Aurelia): void {
   aurelia.use
@@ -41,4 +42,23 @@ export function configure(aurelia: Aurelia): void {
   }
 
   aurelia.start().then(() => aurelia.setRoot(PLATFORM.moduleName('app')));
+
+  ValidationMessageProvider.prototype.getMessage = function (key) {
+    const i18n = aurelia.container.get(I18N);
+    const translation = i18n.tr(`errorMessages.${key}`);
+    return this.parser.parse(translation);
+  };
+
+  ValidationMessageProvider.prototype.getDisplayName = function (propertyName, displayName) {
+    if (displayName !== null && displayName !== undefined) {
+      let name1: string = displayName as string;
+      name1 = name1.charAt(0).toUpperCase() + name1.slice(1);
+      return name1;
+    }
+    const i18n = aurelia.container.get(I18N);
+    let name1: string = propertyName as string;
+    name1 = name1.charAt(0).toUpperCase() + name1.slice(1);
+    return i18n.tr(name1);
+  };
+
 }

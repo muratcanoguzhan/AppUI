@@ -14,5 +14,11 @@
     "Cancel": "Cancel",
     "Ok": "Ok",
     "ApplicantSavedMessage": "Applicant has been created!",
-    "Errors":"Errors"
+    "Errors": "Errors",
+    "errorMessages": {
+        "required": "${$displayName} is required!",
+        "minLength": "${$displayName} must be at least ${$config.length} characters.",
+        "email": "${$displayName} is not a valid email.",
+        "range": "${$displayName} must be between or equal to ${$config.min} and ${$config.max}."
+    }
 }

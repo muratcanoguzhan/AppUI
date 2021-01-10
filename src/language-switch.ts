@@ -20,9 +20,6 @@ export class LanguageSwitch {
     }
 
     changeLanguage(language) {
-        debugger;
-        let currentLocale = this.i18n.getLocale();
         this.i18n.setLocale(language.name);
-        // location.reload();
     }
 }

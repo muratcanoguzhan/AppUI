@@ -14,5 +14,11 @@
     "Cancel": "Stornieren",
     "Ok": "In Ordnung",
     "ApplicantSavedMessage": "Bewerber wurde erstellt!",
-    "Errors":"Fehler"
+    "Errors": "Fehler",
+    "errorMessages": {
+        "required": "${$displayName} ist nötig!",
+        "minLength": "${$displayName} muss mindestens ${$config.length} Zeichen lang sein.",
+        "email": "${$displayName} ist keine gültige e-mail.",
+        "range": "${$displayName} muss zwischen oder gleich ${$config.min} und ${$config.max} sein."
+    }
 }
