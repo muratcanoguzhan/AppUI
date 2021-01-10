@@ -3,7 +3,6 @@ import { I18N, TCustomAttribute } from 'aurelia-i18n';
 import { PLATFORM } from 'aurelia-pal';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
-import 'famfamfam-flags/dist/sprite/famfamfam-flags.min.css';
 import Backend from 'i18next-xhr-backend';
 import * as environment from '../config/environment.json';
 import { ValidationMessageProvider } from 'aurelia-validation';

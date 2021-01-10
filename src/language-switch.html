@@ -1,8 +1,12 @@
 <template>
     <div class="row justify-content-center">
-        <div class="btn language-switch-btn btn-clean btn-icon p-0 m-0" repeat.for="language of languages"
-          click.delegate="changeLanguage(language)"
-            <i class.bind="language.icon" ></i>
+        <div class="btn language-switch-btn btn-clean btn-icon p-0 m-0"
+          click.delegate="changeLanguage('de')">
+            <img src="assets/flags/de.png">
+        </div>
+        <div class="btn language-switch-btn btn-clean btn-icon p-0 m-0"
+          click.delegate="changeLanguage('us')">
+            <img src="assets/flags/us.png">
         </div>
     </div>
 </template>
