@@ -6,57 +6,61 @@
     <div class="card-body">
       <form role="form" mouseover.delegate="isValid($event)">
         <div class="form-group row">
-          <label class="col-md-3 col-form-label">Name</label>
+          <label class="col-md-3 col-form-label" t="Name"></label>
           <div class="col-md-9">
-            <input type="text" placeholder="name" class="form-control" value.bind="applicant.name & validate"/>
+            <input type="text" t="[placeholder]Name" class="form-control" value.bind="applicant.name & validate" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label class="col-md-3 col-form-label">Family Name</label>
+          <label class="col-md-3 col-form-label" t="FamilyName"></label>
           <div class="col-md-9">
-            <input type="text" placeholder="familyName" class="form-control" value.bind="applicant.familyName & validate"/>
+            <input type="text" t="[placeholder]FamilyName" class="form-control"
+              value.bind="applicant.familyName & validate" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-md-3 col-form-label">Address</label>
+          <label class="col-md-3 col-form-label" t="Address"></label>
           <div class="col-md-9">
-            <textarea type="text" placeholder="address" class="form-control" value.bind="applicant.address & validate" rows="2" cols="2"></textarea>
+            <textarea type="text" t="[placeholder]Address" class="form-control"
+              value.bind="applicant.address & validate" rows="2" cols="2"></textarea>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-md-3 col-form-label">Country Of Origin</label>
+          <label class="col-md-3 col-form-label" t="CountryOfOrigin"></label>
           <div class="col-md-9">
-            <input type="text" placeholder="countryOfOrigin" class="form-control"
+            <input type="text" t="[placeholder]CountryOfOrigin" class="form-control"
               value.bind="applicant.countryOfOrigin & validate">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-md-3 col-form-label">Email Adress</label>
+          <label class="col-md-3 col-form-label" t="EmailAdress"></label>
           <div class="col-md-9">
-            <input type="text" placeholder="emailAdress" class="form-control" value.bind="applicant.emailAdress & validate"/>
+            <input type="text" t="[placeholder]EmailAdress" class="form-control"
+              value.bind="applicant.emailAdress & validate" />
           </div>
         </div>
 
         <div class="form-group row">
-          <label class="col-md-3 col-form-label">Age</label>
+          <label class="col-md-3 col-form-label" t="Age"></label>
           <div class="col-md-9">
-            <input type="number" placeholder="age" class="form-control" value.bind="applicant.age & validate"/>
+            <input type="number" t="[placeholder]Age" class="form-control"
+              value.bind="applicant.age & validate" />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label"></label>
           <div class="col-md-9">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" checked.bind="applicant.hired" id="customCheck1"/>
-              <label class="custom-control-label" for="customCheck1">Hired</label>
+              <input type="checkbox" class="custom-control-input" checked.bind="applicant.hired" id="customCheck1" />
+              <label class="custom-control-label" for="customCheck1" t="Hired"></label>
             </div>
           </div>
         </div>
         <div class="form-group row">
           <div class="col-sm-12 text-right">
-            <button class="btn btn-outline-primary" click.delegate="reset()" disabled.bind="disabledForReset">Reset</button>
-            <button class="btn btn-outline-success" click.delegate="save()" disabled.bind="disabled">Save</button>
+            <button class="btn btn-outline-primary" click.delegate="reset()" disabled.bind="disabledForReset" t="Reset"></button>
+            <button class="btn btn-outline-success" click.delegate="save()" disabled.bind="disabled" t="Save"></button>
           </div>
         </div>
       </form>

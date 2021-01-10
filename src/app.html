@@ -1,10 +1,11 @@
 <template>
   <require from="./styles.css"></require>
+  <require from="./language-switch"></require>
 
   <nav class="navbar navbar-light bg-light border-bottom fixed-top" role="navigation">
     <a class="navbar-brand" href="#">
       <i class="fa fa-user"></i>
-      <span>Applicants</span>
+      <span t="Applicants">Applicants</span>
     </a>
   </nav>
 
@@ -14,5 +15,6 @@
     <div class="row">
       <router-view class="col-sm-12 col-md-12"></router-view>
     </div>
+    <language-switch></language-switch>
   </div>
 </template>

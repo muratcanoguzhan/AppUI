@@ -1,0 +1,18 @@
+{
+    "Applicant": "Applicant",
+    "Applicants": "Applicants",
+    "Name": "Name",
+    "FamilyName": "Family Name",
+    "Address": "Address",
+    "CountryOfOrigin": "Country Of Origin",
+    "EmailAdress": "Email Adress",
+    "Age": "Age",
+    "Hired": "Hired",
+    "Save": "Save",
+    "Reset": "Reset",
+    "ResetWarning": "Are you sure you want to reset the form?",
+    "Cancel": "Cancel",
+    "Ok": "Ok",
+    "ApplicantSavedMessage": "Applicant has been created!",
+    "Errors":"Errors"
+}

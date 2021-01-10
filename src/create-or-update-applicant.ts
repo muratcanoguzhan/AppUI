@@ -1,6 +1,6 @@
 import { DialogService } from 'aurelia-dialog';
-import { EventAggregator } from 'aurelia-event-aggregator';
 import { inject, NewInstance } from 'aurelia-framework';
+import { I18N } from 'aurelia-i18n';
 import { Router } from 'aurelia-router';
 import { Rule, validateTrigger, ValidationController, ValidationRules, Validator } from 'aurelia-validation';
 import { ApplicantDialog } from 'resources/dialogs/applicant-dialog';
@@ -8,23 +8,20 @@ import { ConfirmationDialog } from 'resources/dialogs/confirmation-dialog';
 import { BootstrapFormRenderer } from 'resources/renderers/bootstrap-form-renderer';
 import { ApplicantDto, Client } from './client';
 
-@inject(Client, EventAggregator, NewInstance.of(ValidationController), BootstrapFormRenderer, Validator, Router, DialogService)
+@inject(Client, NewInstance.of(ValidationController), BootstrapFormRenderer, Validator, Router, DialogService, I18N)
 export class CreateOrUpdateApplicant {
-  api: any;
-  ea: any;
   routeConfig: any;
   applicant: ApplicantDto = new ApplicantDto();
   disabled = true;
   applicantRules: Rule<ApplicantDto, any>[][];
-  constructor(_api, _ea,
+  static inject = [];
+  constructor(private _api: Client,
     public _applicantController: ValidationController,
     public _bootstrapRenderer: BootstrapFormRenderer,
     private _validator: Validator,
     public _router: Router,
-    private _dialogService: DialogService) {
-
-    this.api = _api;
-    this.ea = _ea;
+    private _dialogService: DialogService,
+    private i18n: I18N) {
 
     this.applicantRules = ValidationRules
       .ensure((res: ApplicantDto) => res.name).required().minLength(5)
@@ -47,7 +44,7 @@ export class CreateOrUpdateApplicant {
   save() {
     this._applicantController.validate().then(x => {
       if (x.valid) {
-        this.api.insert(this.applicant).then(r => {
+        this._api.insert(this.applicant).then(r => {
           this._router.navigateToRoute("confirmation-view", r);
         })
           .finally(() => this._applicantController.reset())
@@ -60,7 +57,7 @@ export class CreateOrUpdateApplicant {
 
   reset() {
     let wasCancelled = true;
-    this._dialogService.open({ viewModel: ConfirmationDialog, model: "Are you sure you want to reset the form.", lock: false }).whenClosed(response => {
+    this._dialogService.open({ viewModel: ConfirmationDialog, model: this.i18n.tr("ResetWarning"), lock: false }).whenClosed(response => {
       wasCancelled = response.wasCancelled;
       if (wasCancelled) {
         return false;
@@ -97,7 +94,7 @@ export class CreateOrUpdateApplicant {
   }
 
   test() {
-    this.api.getCountryInfo("Germany").then(x => {
+    this._api.getCountryInfo("Germany").then(x => {
       console.log(x);
     });
   }

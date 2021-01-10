@@ -235,6 +235,9 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     ]
   },
   plugins: [
+    new CopyWebpackPlugin({ patterns: [
+      { from: 'src/locales/', to: 'locales/' }
+    ]}),
     ...when(!tests, new DuplicatePackageCheckerPlugin()),
     new AureliaPlugin(),
     new ModuleDependenciesPlugin({

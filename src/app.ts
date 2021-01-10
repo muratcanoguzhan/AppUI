@@ -15,7 +15,8 @@ export class App {
     config.options.root = '/';
     config.map([
       { route: '', moduleId: PLATFORM.moduleName('create-or-update-applicant'), name: 'Applicants' },
-      { route: 'confirmation-view', moduleId: PLATFORM.moduleName('confirmation-view'), name: 'confirmation-view', title:"ConfirmationView"},
+      { route: 'confirmation-view', moduleId: PLATFORM.moduleName('confirmation-view'), name: 'confirmation-view'},
+      { route: 'language-switch', moduleId: PLATFORM.moduleName('language-switch'), name: 'language-switch'},
     ]);
 
     this.router = router;
