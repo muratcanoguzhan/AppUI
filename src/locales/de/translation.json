@@ -15,6 +15,7 @@
     "Ok": "In Ordnung",
     "ApplicantSavedMessage": "Bewerber wurde erstellt!",
     "Errors": "Fehler",
+    "Profile": "Profil",
     "errorMessages": {
         "required": "${$displayName} ist nötig!",
         "minLength": "${$displayName} muss mindestens ${$config.length} Zeichen lang sein.",

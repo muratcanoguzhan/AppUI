@@ -15,6 +15,7 @@
     "Ok": "Ok",
     "ApplicantSavedMessage": "Applicant has been created!",
     "Errors": "Errors",
+    "Profile": "Profile",
     "errorMessages": {
         "required": "${$displayName} is required!",
         "minLength": "${$displayName} must be at least ${$config.length} characters.",
