@@ -1,33 +1,26 @@
 # `HahnUI`
 
-This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli).
+This project is bootstrapped by [aurelia-cli](https://github.com/aurelia/cli) and `typescript`.
 
-For more information, go to https://aurelia.io/docs/cli/webpack
 
-## Run dev app
 
-Run `npm start`, then open `http://localhost:8080`
+## Usage
 
-You can change the standard webpack configurations from CLI easily with something like this: `npm start -- --open --port 8888`. However, it is better to change the respective npm scripts or `webpack.config.js` with these options, as per your need.
+Open project folder for example by vs code editor.
 
-To enable Webpack Bundle Analyzer, do `npm run analyze` (production build).
+Open terminal and run `npm install` script there.
 
-To enable hot module reload, do `npm start -- --hmr`.
+Then run `au run --open --port 8080` script.
 
-To change dev server port, do `npm start -- --port 8888`.
+And Ui ready for consuming the our backend.
 
-To change dev server host, do `npm start -- --host 127.0.0.1`
+Ther is a form which you can create a applicant if form is valid.
 
-**PS:** You could mix all the flags as well, `npm start -- --host 127.0.0.1 --port 7070 --open --hmr`
+Vaidations will guide you to create applicant.
 
-For long time aurelia-cli user, you can still use `au run` with those arguments like `au run --env prod --open --hmr`. But `au run` now simply executes `npm start` command.
+After succesfully creation you will get an confiramtion message.
 
-## Build for production
+If you got error, a diolag will notify you about the issue.
 
-Run `npm run build`, or the old way `au build --env prod`.
+Also, I put at the bottom side a language switching option. You can change language texts there by just clicking them.
 
-## Unit tests
-
-Run `au test` (or `au jest`).
-
-To run in watch mode, `au test --watch` or `au jest --watch`.
