@@ -1,5 +1,5 @@
 {
-  "name": "HahnUI",
+  "name": "AppUI",
   "type": "project:application",
   "paths": {
     "root": "src",

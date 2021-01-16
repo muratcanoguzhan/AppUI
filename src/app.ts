@@ -10,7 +10,7 @@ export class App {
   }
 
   configureRouter(config, router) {
-    config.title = 'Hahn';
+    config.title = 'App';
     config.options.pushState = true;
     config.options.root = '/';
     config.map([
